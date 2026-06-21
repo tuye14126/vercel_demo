@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我们相识两个月啦 💕</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --peach: #fdd5d2;
+      --lavender: #e8d5f5;
+      --cream: #fff8f5;
+      --rose: #f5a0b8;
+      --purple: #c084d0;
+      --warm-pink: #f3a7b3;
+      --soft-shadow: rgba(200, 140, 180, 0.15);
+      --glass-bg: rgba(255, 248, 245, 0.55);
+      --glass-border: rgba(255, 220, 210, 0.35);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Nunito', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(145deg, #fff5f3 0%, #f8ecf9 40%, #fce8f0 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: #4a3a4a;
+    }
+    #loading-screen {
+      position: fixed; inset: 0; z-index: 9999;
+      background: linear-gradient(145deg, #fdd5d2, #e8d5f5, #fce4ec);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+    #loading-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .loading-heart { font-size: 4rem; animation: pulseHeart 1.2s ease-in-out infinite; }
+    @keyframes pulseHeart {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.25); opacity: 1; }
+    }
+    .loading-text {
+      margin-top: 1.2rem; font-size: 1.6rem; font-weight: 600;
+      background: linear-gradient(135deg, #d474a0, #a77ac0, #d474a0);
+      background-size: 200% 200%;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      animation: shimmerText 3s ease-in-out infinite;
+    }
+    @keyframes shimmerText {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    .loading-sub { color: #b08ab0; font-size: 1rem; margin-top: 0.5rem; opacity: 0.7; }
+    .falling-heart {
+      position: absolute; font-size: 1.2rem; opacity: 0.6;
+      animation: fallDown linear forwards; pointer-events: none;
+    }
+    @keyframes fallDown {
+      0% { transform: translateY(-20px) rotate(0deg); opacity: 0.7; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+    #bg-hearts-layer {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+    }
+    .bg-heart {
+      position: absolute; opacity: 0.12;
+      animation: floatHeart 18s ease-in-out infinite;
+      font-size: 2rem; user-select: none;
+    }
+    @keyframes floatHeart {
+      0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+      25% { transform: translateY(-30px) rotate(8deg) scale(1.05); }
+      50% { transform: translateY(-60px) rotate(-5deg) scale(1.1); }
+      75% { transform: translateY(-30px) rotate(5deg) scale(1.03); }
+    }
+    .section-title {
+      font-size: 2rem; font-weight: 800; text-align: center;
+      background: linear-gradient(135deg, #d474a0, #a77ac0);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; letter-spacing: 2px; margin-bottom: 0.5rem;
+    }
+    .section-sub {
+      text-align: center; color: #b08ab0; font-size: 0.95rem;
+      margin-bottom: 2.5rem; letter-spacing: 4px;
+    }
+    #hero {
+      position: relative; z-index: 1; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 2rem;
+    }
+    #hero h1 {
+      font-size: clamp(2.2rem, 7vw, 4.2rem); font-weight: 900;
+      background: linear-gradient(135deg, #d474a0, #b489d0, #f0a0b8);
+      background-size: 200% 200%;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; animation: shimmerText 4s ease-in-out infinite;
+      line-height: 1.3;
+    }
+    #hero .nicknames {
+      margin-top: 1rem; font-size: clamp(1.1rem, 3vw, 1.8rem);
+      font-weight: 600; color: #b08ab0; letter-spacing: 3px;
+    }
+    #hero .nicknames span { display: inline-block; padding: 0 0.4rem; color: #d474a0; }
+    .hero-divider {
+      width: 80px; height: 3px; margin: 1.5rem auto; border-radius: 4px;
+      background: linear-gradient(90deg, transparent, #d474a0, #b489d0, transparent);
+    }
+    .hero-date { font-size: 1rem; color: #b89ac0; letter-spacing: 6px; font-weight: 300; }
+    .scroll-hint {
+      position: absolute; bottom: 2.5rem; display: flex; flex-direction: column;
+      align-items: center; gap: 0.3rem; color: #c99ac0; font-size: 0.8rem;
+      animation: bounceDown 2.5s ease-in-out infinite; cursor: pointer;
+    }
+    @keyframes bounceDown {
+      0%, 100% { transform: translateY(0); opacity: 0.6; }
+      50% { transform: translateY(10px); opacity: 1; }
+    }
+    .timeline-container { position: relative; max-width: 700px; margin: 0 auto; padding: 0 1rem; }
+    .timeline-container::before {
+      content: ''; position: absolute; left: 28px; top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, #fdd5d2, #e8d5f5, #fdd5d2);
+      border-radius: 4px;
+    }
+    .timeline-item {
+      position: relative; padding-left: 70px; padding-bottom: 2.5rem;
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .timeline-item.visible { opacity: 1; transform: translateY(0); }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-dot {
+      position: absolute; left: 15px; top: 4px;
+      width: 30px; height: 30px; border-radius: 50%;
+      background: linear-gradient(135deg, #fdd5d2, #e8d5f5);
+      display: flex; align-items: center; justify-content: center; font-size: 0.9rem;
+      border: 2px solid rgba(255,255,255,0.7);
+      box-shadow: 0 2px 12px rgba(200,140,180,0.25);
+      transition: transform 0.4s ease, box-shadow 0.4s ease; z-index: 2;
+    }
+    .timeline-item:hover .timeline-dot { transform: scale(1.25); box-shadow: 0 4px 20px rgba(200,140,180,0.4); }
+    .timeline-content {
+      background: rgba(255,248,245,0.55);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,220,210,0.35); border-radius: 18px;
+      padding: 1.2rem 1.5rem;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .timeline-item:hover .timeline-content { transform: translateX(6px); box-shadow: 0 6px 24px rgba(200,140,180,0.15); }
+    .timeline-content .tl-date { font-size: 0.8rem; color: #c084d0; font-weight: 600; letter-spacing: 1px; }
+    .timeline-content .tl-title { font-size: 1.1rem; font-weight: 700; color: #5a4a5a; margin: 0.2rem 0 0.3rem; }
+    .timeline-content .tl-desc { font-size: 0.9rem; color: #8a7a8a; line-height: 1.6; }
+    .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; }
+    .photo-item {
+      position: relative; border-radius: 18px; overflow: hidden; aspect-ratio: 1/1;
+      background: linear-gradient(135deg, #fce8f0, #f0e8f8); cursor: pointer;
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
+    }
+    .photo-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease, filter 0.5s ease; }
+    .photo-item:hover { transform: scale(1.03); box-shadow: 0 12px 40px rgba(200,140,180,0.25); }
+    .photo-item:hover img { transform: scale(1.1); filter: brightness(1.08) saturate(1.05); }
+    .photo-item .photo-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(200,130,180,0.25), transparent 50%);
+      opacity: 0; transition: opacity 0.5s ease; pointer-events: none;
+    }
+    .photo-item:hover .photo-overlay { opacity: 1; }
+    .photo-placeholder {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; height: 100%; color: #c99ac0; font-size: 2.5rem;
+    }
+    .photo-placeholder span { font-size: 0.8rem; margin-top: 0.3rem; color: #d4b0d0; }
+    .love-board { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    @media (max-width: 700px) { .love-board { grid-template-columns: 1fr; } }
+    .love-card {
+      background: rgba(255,248,245,0.55); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,220,210,0.35); border-radius: 24px; padding: 2rem;
+      min-height: 220px; transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .love-card:hover { transform: translateY(-4px); box-shadow: 0 10px 36px rgba(200,140,180,0.15); }
+    .love-card .card-label { font-size: 0.8rem; font-weight: 600; color: #c084d0; letter-spacing: 3px; margin-bottom: 0.8rem; }
+    .love-card .card-title {
+      font-size: 1.4rem; font-weight: 700; margin-bottom: 1rem;
+      background: linear-gradient(135deg, #d474a0, #a77ac0);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .typewriter-text { font-size: 1rem; line-height: 1.8; color: #5a4a5a; min-height: 4em; }
+    .typewriter-text .cursor-blink {
+      display: inline-block; width: 2px; height: 1.2em; background: #d474a0;
+      margin-left: 2px; vertical-align: text-bottom; animation: blink 0.8s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+    #countdown { z-index: 1; position: relative; }
+    .countdown-grid { display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap; }
+    .countdown-box {
+      background: rgba(255,248,245,0.55); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,220,210,0.35); border-radius: 20px;
+      padding: 1.2rem 1.8rem; min-width: 90px; text-align: center; transition: transform 0.3s ease;
+    }
+    .countdown-box:hover { transform: translateY(-4px); }
+    .countdown-number {
+      font-size: 2.8rem; font-weight: 800; color: #d474a0; line-height: 1;
+      text-shadow: 0 0 20px rgba(212,116,160,0.3), 0 0 40px rgba(212,116,160,0.15);
+    }
+    .countdown-label { font-size: 0.75rem; color: #b08ab0; letter-spacing: 2px; margin-top: 0.3rem; font-weight: 600; }
+    .countdown-progress { max-width: 400px; margin: 1.5rem auto 0; }
+    .countdown-progress .bar-bg { height: 4px; background: rgba(200,140,180,0.15); border-radius: 4px; overflow: hidden; }
+    .countdown-progress .bar-fill {
+      height: 100%; border-radius: 4px;
+      background: linear-gradient(90deg, #fdd5d2, #e8d5f5);
+      transition: width 1s ease;
+    }
+    .countdown-progress .bar-text { display: flex; justify-content: space-between; font-size: 0.75rem; color: #b89ac0; margin-top: 0.3rem; }
+    .click-particle { position: fixed; pointer-events: none; z-index: 9998; font-size: 1.4rem; animation: particleFloat 1.6s ease-out forwards; }
+    @keyframes particleFloat { 0% { transform: translateY(0) scale(0.5); opacity: 1; } 100% { transform: translateY(-120px) scale(1.2); opacity: 0; } }
+    #music-btn {
+      position: fixed; bottom: 2rem; left: 2rem; z-index: 100;
+      width: 50px; height: 50px; border-radius: 50%;
+      background: rgba(255,248,245,0.55); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,220,210,0.35);
+      display: flex; align-items: center; justify-content: center; font-size: 1.4rem; cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 16px rgba(200,140,180,0.15); color: #d474a0;
+    }
+    #music-btn:hover { transform: scale(1.1); box-shadow: 0 6px 24px rgba(200,140,180,0.3); }
+    #music-btn.playing { animation: spinNote 4s linear infinite; }
+    @keyframes spinNote { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    #back-top {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 100;
+      width: 50px; height: 50px; border-radius: 50%;
+      background: linear-gradient(135deg, #fdd5d2, #e8d5f5); border: none;
+      display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer;
+      box-shadow: 0 4px 16px rgba(200,140,180,0.25);
+      transition: transform 0.3s ease, opacity 0.4s ease, box-shadow 0.3s ease;
+      opacity: 0; visibility: hidden; transform: translateY(10px); color: #fff;
+    }
+    #back-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+    #back-top:hover { transform: scale(1.12); box-shadow: 0 6px 24px rgba(200,140,180,0.4); }
+    footer { position: relative; z-index: 1; text-align: center; padding: 3rem 2rem 6rem; }
+    footer .footer-heart { font-size: 2rem; margin-bottom: 1rem; }
+    footer .footer-names {
+      font-size: 1.3rem; font-weight: 700;
+      background: linear-gradient(135deg, #d474a0, #a77ac0);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    footer .footer-tagline { font-size: 0.9rem; color: #b89ac0; margin-top: 0.5rem; letter-spacing: 4px; }
+    @media (max-width: 640px) {
+      .timeline-container::before { left: 20px; }
+      .timeline-item { padding-left: 56px; }
+      .timeline-dot { left: 8px; width: 26px; height: 26px; font-size: 0.8rem; }
+      .timeline-content { padding: 1rem 1.2rem; }
+      .countdown-box { min-width: 72px; padding: 0.8rem 1rem; }
+      .countdown-number { font-size: 2rem; }
+      .photo-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.8rem; }
+      #music-btn, #back-top { width: 44px; height: 44px; font-size: 1.2rem; }
+      #music-btn { bottom: 1.2rem; left: 1.2rem; }
+      #back-top { bottom: 1.2rem; right: 1.2rem; }
+    }
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<div id="loading-screen">
+  <div class="loading-heart">💕</div>
+  <div class="loading-text">我们相识两个月啦</div>
+  <div class="loading-sub">正在加载属于我们的回忆...</div>
+</div>
+
+<div id="bg-hearts-layer"></div>
+
+<section id="hero">
+  <h1>我们相识两个月啦</h1>
+  <div class="nicknames">
+    <span>💗 宝宝</span>
+    <span style="color:#b89ac0;font-weight:300;padding:0 0.3rem;">&amp;</span>
+    <span>💗 贝贝</span>
+  </div>
+  <div class="hero-divider"></div>
+  <div class="hero-date">2026.04.21 — 2026.06.21</div>
+  <div class="scroll-hint" onclick="document.getElementById('timeline').scrollIntoView({behavior:'smooth'})">
+    <span>往下翻阅我们的故事</span>
+    <span style="font-size:1.2rem;">⌄</span>
+  </div>
+</section>
+
+<section id="timeline" style="position:relative;z-index:1;padding:4rem 1rem 3rem;">
+  <h2 class="section-title">⏳ 我们的时光轴</h2>
+  <p class="section-sub">每一个瞬间都值得被记住</p>
+  <div class="timeline-container">
+    <div class="timeline-item reveal">
+      <div class="timeline-dot">💕</div>
+      <div class="timeline-content">
+        <div class="tl-date">2026.04.21</div>
+        <div class="tl-title">✨ 初次相遇</div>
+        <div class="tl-desc">那个普通的日子，却因为遇见你变得闪闪发光。第一次聊天，心跳漏了一拍。</div>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot">⭐</div>
+      <div class="timeline-content">
+        <div class="tl-date">2026.05.03</div>
+        <div class="tl-title">🌸 第一次约会</div>
+        <div class="tl-desc">一起散步的傍晚，晚风很温柔，你笑起来的样子比星星还好看。</div>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot">💌</div>
+      <div class="timeline-content">
+        <div class="tl-date">2026.05.14</div>
+        <div class="tl-title">💗 告白</div>
+        <div class="tl-desc">鼓足勇气说出了心里话，原来你也喜欢我——那一刻是世界最幸福的瞬间。</div>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot">💍</div>
+      <div class="timeline-content">
+        <div class="tl-date">2026.05.20</div>
+        <div class="tl-title">💞 确定关系</div>
+        <div class="tl-desc">从那天起，我们变成了“我们”。每一天都想和你一起度过。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="photos" style="position:relative;z-index:1;padding:3rem 1rem;">
+  <h2 class="section-title">📸 我们的相册</h2>
+  <p class="section-sub">每一张照片都是时光的礼物</p>
+  <div class="max-w-5xl mx-auto photo-grid">
+    <div class="photo-item">
+      <div class="photo-placeholder">📷<span>替换为合照1</span></div>
+      <div class="photo-overlay"></div>
+    </div>
+    <div class="photo-item">
+      <div class="photo-placeholder">📷<span>替换为合照2</span></div>
+      <div class="photo-overlay"></div>
+    </div>
+    <div class="photo-item">
+      <div class="photo-placeholder">📷<span>替换为合照3</span></div>
+      <div class="photo-overlay"></div>
+    </div>
+    <div class="photo-item">
+      <div class="photo-placeholder">📷<span>替换为合照4</span></div>
+      <div class="photo-overlay"></div>
+    </div>
+    <div class="photo-item">
+      <div class="photo-placeholder">📷<span>替换为合照5</span></div>
+      <div class="photo-overlay"></div>
+    </div>
+    <div class="photo-item">
+      <div class="photo-placeholder">📷<span>替换为合照6</span></div>
+      <div class="photo-overlay"></div>
+    </div>
+  </div>
+</section>
+
+<section id="love-letters" style="position:relative;z-index:1;padding:3rem 1rem;">
+  <h2 class="section-title">💌 想对你说的话</h2>
+  <p class="section-sub">文字虽轻，情意却重</p>
+  <div class="max-w-4xl mx-auto love-board">
+    <div class="love-card reveal">
+      <div class="card-label">💗 我的告白</div>
+      <div class="card-title">给宝宝的一封信</div>
+      <div class="typewriter-text" id="typewriter-message">
+        遇见你之前，我从没想过两个月可以这么长又这么短。<br>
+        长到装下了那么多和你一起的笑声、心跳和晚安，<br>
+        短到好像昨天才第一次对你 say hi。<br><br>
+        谢谢你出现在我的世界里，<br>
+        让每一天都多了一份期待。<br>
+        两个月的时光只是一个开始，<br>
+        我想和你一起走过很多很多个两个月。<br><br>
+        爱你，不止今天。💕
+      </div>
+    </div>
+    <div class="love-card reveal" style="transition-delay:0.2s;">
+      <div class="card-label">💌 给你的留言框</div>
+      <div class="card-title">在这里写下你想说的话</div>
+      <textarea id="message-input" placeholder="亲爱的，写下你想对 TA 说的话吧…"
+        style="width:100%;min-height:120px;background:rgba(255,255,255,0.5);border:1px solid rgba(200,140,180,0.2);border-radius:14px;padding:1rem;font-family:inherit;font-size:0.95rem;color:#4a3a4a;resize:vertical;outline:none;transition:border-color 0.3s;"
+        onfocus="this.style.borderColor='#d474a0'" onblur="this.style.borderColor='rgba(200,140,180,0.2)'"></textarea>
+      <button onclick="saveMessage()"
+        style="margin-top:0.8rem;padding:0.6rem 1.8rem;border-radius:30px;border:none;background:linear-gradient(135deg,#fdd5d2,#e8d5f5);color:#6a4a6a;font-weight:600;font-size:0.9rem;cursor:pointer;transition:transform 0.3s,box-shadow 0.3s;box-shadow:0 2px 12px rgba(200,140,180,0.15);"
+        onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+        💕 保存留言
+      </button>
+      <p id="message-feedback" style="margin-top:0.6rem;font-size:0.85rem;color:#b08ab0;min-height:1.2rem;"></p>
+    </div>
+  </div>
+</section>
+
+<section id="countdown" style="position:relative;z-index:1;padding:3rem 1rem 4rem;">
+  <h2 class="section-title">⏰ 距离一周年还有</h2>
+  <p class="section-sub">每一天都在向更远的未来靠近</p>
+  <div class="countdown-grid">
+    <div class="countdown-box"><div class="countdown-number" id="cd-days">00</div><div class="countdown-label">天</div></div>
+    <div class="countdown-box"><div class="countdown-number" id="cd-hours">00</div><div class="countdown-label">时</div></div>
+    <div class="countdown-box"><div class="countdown-number" id="cd-mins">00</div><div class="countdown-label">分</div></div>
+    <div class="countdown-box"><div class="countdown-number" id="cd-secs">00</div><div class="countdown-label">秒</div></div>
+  </div>
+  <div class="countdown-progress">
+    <div class="bar-bg"><div class="bar-fill" id="progress-fill" style="width:0%;"></div></div>
+    <div class="bar-text"><span>开始</span><span id="progress-label">0%</span><span>一周年</span></div>
+  </div>
+</section>
+
+<audio id="bg-music" loop preload="none">
+  <source src="" type="audio/mpeg">
+</audio>
+<button id="music-btn" onclick="toggleMusic()" title="播放/暂停背景音乐">🎵</button>
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">💕</button>
+
+<footer>
+  <div class="footer-heart">💗</div>
+  <div class="footer-names">宝宝 💕 贝贝</div>
+  <div class="footer-tagline">相识两个月快乐 · 未来继续相爱</div>
+  <div style="margin-top:1.5rem;font-size:0.75rem;color:#ceb0ce;letter-spacing:2px;">2026.04.21 — 永远</div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  var START_DATE = new Date(2026, 3, 21);
+  var ANNIVERSARY_DATE = new Date(2027, 3, 21);
+  var MUSIC_URL = '';
+
+  var loadingScreen = document.getElementById('loading-screen');
+
+  function createFallHearts() {
+    var symbols = ['💕', '💗', '💖', '✨', '🌸'];
+    for (var i = 0; i < 18; i++) {
+      setTimeout(function() {
+        var el = document.createElement('div');
+        el.className = 'falling-heart';
+        el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        el.style.left = Math.random() * 90 + '%';
+        el.style.fontSize = (0.8 + Math.random() * 1.2) + 'rem';
+        el.style.animationDuration = (4 + Math.random() * 4) + 's';
+        loadingScreen.appendChild(el);
+        setTimeout(function() { el.remove(); }, 8000);
+      }, i * 220);
+    }
+  }
+  createFallHearts();
+  var fallInterval = setInterval(createFallHearts, 4000);
+
+  setTimeout(function() {
+    clearInterval(fallInterval);
+    loadingScreen.classList.add('hidden');
+    initBgHearts();
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+    initTypewriter();
+    initScrollReveal();
+  }, 2500);
+
+  function initBgHearts() {
+    var layer = document.getElementById('bg-hearts-layer');
+    var symbols = ['♥', '♡', '💕', '💗', '🌸', '✦'];
+    for (var i = 0; i < 20; i++) {
+      var el = document.createElement('div');
+      el.className = 'bg-heart';
+      el.textContent = symbols[i % symbols.length];
+      el.style.left = Math.random() * 95 + '%';
+      el.style.top = Math.random() * 90 + '%';
+      el.style.fontSize = (1.2 + Math.random() * 2.5) + 'rem';
+      el.style.animationDelay = (Math.random() * 12) + 's';
+      el.style.animationDuration = (14 + Math.random() * 12) + 's';
+      layer.appendChild(el);
+    }
+  }
+
+  function initTypewriter() {
+    var container = document.getElementById('typewriter-message');
+    var rawHTML = container.innerHTML;
+    container.innerHTML = '';
+    var chars = [];
+    var i = 0;
+    while (i < rawHTML.length) {
+      if (rawHTML[i] === '<') {
+        var tagEnd = rawHTML.indexOf('>', i);
+        chars.push(rawHTML.substring(i, tagEnd + 1));
+        i = tagEnd + 1;
+      } else {
+        chars.push(rawHTML[i]);
+        i++;
+      }
+    }
+    var index = 0;
+    var output = '';
+    var cursorSpan = '<span class="cursor-blink"></span>';
+    function typeStep() {
+      if (index < chars.length) {
+        output += chars[index];
+        container.innerHTML = output + cursorSpan;
+        index++;
+        var ch = chars[index - 1];
+        var delay = ch === ' ' ? 60 : (ch === ',' || ch === '。') ? 200 : (ch === '<' || ch === '>') ? 0 : 80;
+        setTimeout(typeStep, delay);
+      } else {
+        container.innerHTML = output + cursorSpan;
+      }
+    }
+    setTimeout(typeStep, 1500);
+  }
+
+  function updateCountdown() {
+    var now = new Date();
+    var target = new Date(ANNIVERSARY_DATE);
+    var diff = target.getTime() - now.getTime();
+    if (diff <= 0) {
+      document.getElementById('cd-days').textContent = '00';
+      document.getElementById('cd-hours').textContent = '00';
+      document.getElementById('cd-mins').textContent = '00';
+      document.getElementById('cd-secs').textContent = '00';
+      document.getElementById('progress-fill').style.width = '100%';
+      document.getElementById('progress-label').textContent = '100%';
+      return;
+    }
+    var totalSec = Math.floor(diff / 1000);
+    var days = Math.floor(totalSec / 86400);
+    var hours = Math.floor((totalSec % 86400) / 3600);
+    var mins = Math.floor((totalSec % 3600) / 60);
+    var secs = totalSec % 60;
+    document.getElementById('cd-days').textContent = String(days).padStart(2, '0');
+    document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('cd-mins').textContent = String(mins).padStart(2, '0');
+    document.getElementById('cd-secs').textContent = String(secs).padStart(2, '0');
+    var totalDur = ANNIVERSARY_DATE.getTime() - START_DATE.getTime();
+    var elapsed = now.getTime() - START_DATE.getTime();
+    var pct = Math.min(100, Math.max(0, (elapsed / totalDur) * 100));
+    document.getElementById('progress-fill').style.width = pct.toFixed(1) + '%';
+    document.getElementById('progress-label').textContent = pct.toFixed(1) + '%';
+  }
+
+  function initScrollReveal() {
+    var els = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+      els.forEach(function(el) { observer.observe(el); });
+    } else {
+      els.forEach(function(el) { el.classList.add('visible'); });
+    }
+    var tlItems = document.querySelectorAll('.timeline-item');
+    if ('IntersectionObserver' in window) {
+      var tlObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            tlObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2, rootMargin: '0px 0px -30px 0px' });
+      tlItems.forEach(function(el) { tlObserver.observe(el); });
+    } else {
+      tlItems.forEach(function(el) { el.classList.add('visible'); });
+    }
+  }
+
+  var backTop = document.getElementById('back-top');
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 400) {
+      backTop.classList.add('show');
+    } else {
+      backTop.classList.remove('show');
+    }
+  });
+
+  var particles = ['💕', '💗', '💖', '✨', '🌸', '🌹', '⭐', '♥'];
+  document.addEventListener('click', function(e) {
+    var el = document.createElement('div');
+    el.className = 'click-particle';
+    el.textContent = particles[Math.floor(Math.random() * particles.length)];
+    el.style.left = (e.clientX - 10) + 'px';
+    el.style.top = (e.clientY - 10) + 'px';
+    document.body.appendChild(el);
+    setTimeout(function() { el.remove(); }, 1800);
+  });
+
+  var musicBtn = document.getElementById('music-btn');
+  var audioEl = document.getElementById('bg-music');
+  var isPlaying = false;
+  if (MUSIC_URL) {
+    audioEl.querySelector('source').src = MUSIC_URL;
+    audioEl.load();
+  }
+  window.toggleMusic = function() {
+    if (!MUSIC_URL) {
+      musicBtn.textContent = '🔇';
+      setTimeout(function() { musicBtn.textContent = '🎵'; }, 1200);
+      return;
+    }
+    if (isPlaying) {
+      audioEl.pause();
+      musicBtn.classList.remove('playing');
+      isPlaying = false;
+    } else {
+      audioEl.play().then(function() {
+        musicBtn.classList.add('playing');
+        isPlaying = true;
+      }).catch(function() {
+        musicBtn.textContent = '🔇';
+        setTimeout(function() { musicBtn.textContent = '🎵'; }, 1200);
+      });
+    }
+  };
+
+  window.saveMessage = function() {
+    var input = document.getElementById('message-input');
+    var feedback = document.getElementById('message-feedback');
+    var msg = input.value.trim();
+    if (!msg) {
+      feedback.textContent = '💭 写点什么再保存吧～';
+      return;
+    }
+    try {
+      localStorage.setItem('loveMessage', msg);
+      feedback.textContent = '💕 已保存！下次打开还在哦～';
+    } catch (e) {
+      feedback.textContent = '💕 已记录在页面中～';
+    }
+    input.value = '';
+  };
+
+  try {
+    var saved = localStorage.getItem('loveMessage');
+    if (saved) {
+      document.getElementById('message-input').placeholder = '上次保存的留言：' + saved;
+    }
+  } catch(e) {}
+
+})();
+</script>
+
+</body>
+</html>
