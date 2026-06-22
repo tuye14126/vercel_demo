@@ -420,6 +420,8 @@
 </footer>
 
 <script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+
 (function() {
   'use strict';
 
@@ -649,6 +651,6 @@
   document.getElementById('hero-date').textContent = `2026.04.29 — ${formatToday()}`;
 })();
 </script>
-
+<script defer src="/<unique-path>/script.js"></script>
 </body>
 </html>
