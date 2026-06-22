@@ -275,12 +275,12 @@
 <section id="hero">
   <h1>我们相识两个月啦</h1>
   <div class="nicknames">
-    <span>💗 宝宝A</span>
+    <span>💗 WLT</span>
     <span style="color:#b89ac0;font-weight:300;padding:0 0.3rem;">&amp;</span>
-    <span>💗 贝贝</span>
+    <span>💗 HY</span>
   </div>
   <div class="hero-divider"></div>
-  <div class="hero-date">2026.04.21 — 2026.06.21</div>
+  <div class="hero-date" id="hero-date">2026.04.29 — 2026.06.21</div>
   <div class="scroll-hint" onclick="document.getElementById('timeline').scrollIntoView({behavior:'smooth'})">
     <span>往下翻阅我们的故事</span>
     <span style="font-size:1.2rem;">⌄</span>
@@ -294,33 +294,33 @@
     <div class="timeline-item reveal">
       <div class="timeline-dot">💕</div>
       <div class="timeline-content">
-        <div class="tl-date">2026.04.21</div>
+        <div class="tl-date">2026.04.29</div>
         <div class="tl-title">✨ 初次相遇</div>
-        <div class="tl-desc">那个普通的日子，却因为遇见你变得闪闪发光。第一次聊天，心跳漏了一拍。</div>
-      </div>
-    </div>
-    <div class="timeline-item reveal">
-      <div class="timeline-dot">⭐</div>
-      <div class="timeline-content">
-        <div class="tl-date">2026.05.03</div>
-        <div class="tl-title">🌸 第一次约会</div>
-        <div class="tl-desc">一起散步的傍晚，晚风很温柔，你笑起来的样子比星星还好看。</div>
+        <div class="tl-desc">那个普通的日子，却因为在小红书上遇见你变得闪闪发光。第一次聊天，心跳漏了一拍。</div>
       </div>
     </div>
     <div class="timeline-item reveal">
       <div class="timeline-dot">💌</div>
       <div class="timeline-content">
-        <div class="tl-date">2026.05.14</div>
+        <div class="tl-date">2026.06.13</div>
         <div class="tl-title">💗 告白</div>
-        <div class="tl-desc">鼓足勇气说出了心里话，原来你也喜欢我——那一刻是世界最幸福的瞬间。</div>
+        <div class="tl-desc">鼓足勇气说出了心里话，你接受我告白的那一刻是世界最幸福的瞬间。</div>
       </div>
     </div>
     <div class="timeline-item reveal">
       <div class="timeline-dot">💍</div>
       <div class="timeline-content">
-        <div class="tl-date">2026.05.20</div>
+        <div class="tl-date">2026.06.13</div>
         <div class="tl-title">💞 确定关系</div>
         <div class="tl-desc">从那天起，我们变成了“我们”。每一天都想和你一起度过。</div>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot">⭐</div>
+      <div class="timeline-content">
+        <div class="tl-date">2026.06.14</div>
+        <div class="tl-title">🌸 第一次约会</div>
+        <div class="tl-desc">一起牵手散步,吃饭,看电影，你穿白裙的样子让我无比心动。</div>
       </div>
     </div>
   </div>
@@ -414,7 +414,7 @@
 
 <footer>
   <div class="footer-heart">💗</div>
-  <div class="footer-names">宝宝 💕 贝贝</div>
+  <div class="footer-names">WLT 💕 HY</div>
   <div class="footer-tagline">相识两个月快乐 · 未来继续相爱</div>
   <div style="margin-top:1.5rem;font-size:0.75rem;color:#ceb0ce;letter-spacing:2px;">2026.04.21 — 永远</div>
 </footer>
@@ -638,7 +638,15 @@
       document.getElementById('message-input').placeholder = '上次保存的留言：' + saved;
     }
   } catch(e) {}
-
+  // 自动显示今日日期
+  function formatToday() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    return `${year}.${month}.${day}`;
+  }
+  document.getElementById('hero-date').textContent = `2026.04.29 — ${formatToday()}`;
 })();
 </script>
 
