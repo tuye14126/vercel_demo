@@ -266,14 +266,14 @@
 
 <div id="loading-screen">
   <div class="loading-heart">💕</div>
-  <div class="loading-text">我们相识两个月啦</div>
+  <div class="loading-text">我们相识<span class="days-num"></span>天啦</div>
   <div class="loading-sub">正在加载属于我们的回忆...</div>
 </div>
 
 <div id="bg-hearts-layer"></div>
 
 <section id="hero">
-  <h1>我们相识两个月啦</h1>
+  <h1>我们相识<span class="days-num"></span>天啦</h1>
   <div class="nicknames">
     <span>💗 WLT</span>
     <span style="color:#b89ac0;font-weight:300;padding:0 0.3rem;">&amp;</span>
@@ -415,7 +415,7 @@
 <footer>
   <div class="footer-heart">💗</div>
   <div class="footer-names">WLT 💕 HY</div>
-  <div class="footer-tagline">相识两个月快乐 · 未来继续相爱</div>
+  <div class="footer-tagline">相识<span class="days-num"></span>天快乐 · 未来继续相爱</div>
   <div style="margin-top:1.5rem;font-size:0.75rem;color:#ceb0ce;letter-spacing:2px;">2026.04.29 — 永远</div>
 </footer>
 
@@ -457,6 +457,7 @@
     setInterval(updateCountdown, 1000);
     initTypewriter();
     initScrollReveal();
+    updateDaysSinceApril29();
   }, 2500);
 
   function initBgHearts() {
@@ -649,6 +650,17 @@
     return `${year}.${month}.${day}`;
   }
   document.getElementById('hero-date').textContent = `2026.04.29 — ${formatToday()}`;
+
+  function updateDaysSinceApril29() {
+    var start = new Date(2026, 3, 29);
+    var now = new Date();
+    var diffDays = Math.floor((now.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
+    diffDays = Math.max(0, diffDays);
+    document.querySelectorAll('.days-num').forEach(function(el) {
+      el.textContent = diffDays;
+    });
+    document.title = document.title.replace('两个月', diffDays + '天');
+  }
 })();
 </script>
 <script defer src="/<unique-path>/script.js"></script>
