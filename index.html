@@ -75,10 +75,45 @@
 
     <p>晚安, 宝宝 ......</p>
 
-
-
-
+    <div class="footer">
+      <div id="visitCount"></div>
+    </div>
   </div>
+
+  <script>
+    const BIN_ID = "6a86f6dcf5f4af5e292cfa4e";
+    const ACCESS_KEY = "$2a$10$C6pE8hWy34RjqYg2Gl2T1.YdWJ8SWM7amY4R3mnJVx8ZSKJo60WsW";
+    const countEl = document.getElementById("visitCount");
+
+    async function updateView() {
+      try {
+        // 获取当前计数
+        const getRes = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+          headers: { "X-Master-Key": ACCESS_KEY }
+        });
+        if (!getRes.ok) throw new Error("get failed");
+        const json = await getRes.json();
+        const views = (json.record.views || 0) + 1;
+
+        // 更新计数
+        const putRes = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+          method: "PUT",
+          headers: {
+            "X-Master-Key": ACCESS_KEY,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ views })
+        });
+        if (!putRes.ok) throw new Error("put failed");
+
+        countEl.innerText = `${views}`;
+      } catch (e) {
+        // 计数失败时隐藏页脚，避免页面出现 "error"
+        countEl.parentElement.style.display = "none";
+      }
+    }
+    updateView();
+  </script>
 </body>
 
 </html>
