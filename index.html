@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>喻心，上岸 · 致董喻心</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='6' fill='%23B33A24'/%3E%3Ctext x='32' y='44' font-size='36' text-anchor='middle' fill='%23F4EFE4' font-family='serif' font-weight='700'%3E岸%3C/text%3E%3C/svg%3E" />
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap" />
+<style>
+  :root{
+    --paper:#F4EFE4;
+    --paper-deep:#ECE5D3;
+    --ink:#262420;
+    --ink-soft:#4A463F;
+    --line:#D6CCB4;
+    --cinnabar:#B33A24;
+    --cinnabar-deep:#8E2C1B;
+    --teal:#33504A;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--paper);color:var(--ink)}
+  body{
+    font-family:"Noto Serif SC","Songti SC","STSong","SimSun",serif;
+    font-weight:400;
+    line-height:1.85;
+    -webkit-font-smoothing:antialiased;
+    /* 纸张纹理：极细噪点，避免纯平 */
+    background-image:
+      radial-gradient(rgba(60,45,20,0.05) 1px, transparent 1px);
+    background-size: 3px 3px;
+  }
+  .wrap{max-width:720px;margin:0 auto;padding:72px 28px 96px}
+
+  /* ===== 顶部 ===== */
+  .top{
+    display:flex;align-items:center;justify-content:space-between;
+    font-size:13px;letter-spacing:.2em;color:var(--ink-soft);
+    border-bottom:1px solid var(--line);padding-bottom:18px;
+  }
+  .top .who{color:var(--cinnabar);font-weight:600}
+
+  /* ===== Hero ===== */
+  .hero{padding:72px 0 56px;text-align:center}
+  .hero .eyebrow{
+    font-size:14px;letter-spacing:.5em;color:var(--ink-soft);
+    margin-bottom:28px;
+  }
+  .hero h1{
+    font-size:clamp(40px,8vw,72px);
+    font-weight:900;
+    letter-spacing:.08em;
+    line-height:1.2;
+  }
+  .hero h1 .accent{color:var(--cinnabar)}
+  .hero .sub{
+    margin-top:24px;font-size:16px;color:var(--ink-soft);
+    letter-spacing:.15em;
+  }
+  .hero .divider{
+    width:48px;height:1px;background:var(--cinnabar);
+    margin:36px auto 0;
+  }
+
+  /* ===== 倒计时 ===== */
+  .count{
+    margin:24px auto 0;text-align:center;
+    padding:36px 20px;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .count .label{
+    font-size:13px;letter-spacing:.4em;color:var(--ink-soft);
+  }
+  .count .num{
+    font-size:clamp(56px,12vw,96px);
+    font-weight:900;color:var(--cinnabar);
+    line-height:1;margin:14px 0 8px;
+    font-variant-numeric:tabular-nums;
+  }
+  .count .unit{font-size:15px;color:var(--ink-soft);letter-spacing:.2em}
+  .count .note{
+    margin-top:14px;font-size:13px;color:var(--ink-soft);
+  }
+
+  /* ===== 书信 ===== */
+  .letter{padding:64px 8px 0}
+  .letter h2{
+    font-size:22px;font-weight:700;margin-bottom:24px;
+    letter-spacing:.1em;
+  }
+  .letter p{
+    font-size:17px;color:var(--ink);
+    margin-bottom:1.2em;text-indent:2em;
+  }
+  .letter .sig{
+    margin-top:28px;text-align:right;color:var(--ink-soft);
+    font-size:15px;letter-spacing:.1em;
+  }
+
+  /* ===== 上岸清单 ===== */
+  .checklist{
+    margin-top:64px;padding:40px 32px;
+    background:var(--paper-deep);
+    border:1px solid var(--line);
+  }
+  .checklist h3{
+    font-size:18px;font-weight:700;margin-bottom:20px;
+    letter-spacing:.15em;
+  }
+  .checklist ul{list-style:none}
+  .checklist li{
+    display:flex;gap:14px;align-items:flex-start;
+    padding:10px 0;font-size:16px;
+    border-bottom:1px dashed var(--line);
+  }
+  .checklist li:last-child{border-bottom:0}
+  .checklist .tick{
+    flex:none;width:18px;height:18px;margin-top:6px;
+    border:1.5px solid var(--cinnabar);border-radius:2px;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--cinnabar);font-size:13px;font-weight:700;
+  }
+
+  /* ===== 每日一句 ===== */
+  .quote{
+    margin-top:64px;text-align:center;
+    padding:48px 24px;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .quote .mark{
+    font-size:48px;color:var(--cinnabar);line-height:.6;
+    font-family:"Noto Serif SC",serif;
+  }
+  .quote blockquote{
+    font-size:19px;line-height:1.9;color:var(--ink);
+    margin:18px auto;max-width:520px;font-weight:500;
+  }
+  .quote .by{
+    font-size:13px;letter-spacing:.3em;color:var(--ink-soft);
+  }
+
+  /* ===== 结尾印章 ===== */
+  .ending{
+    margin-top:72px;text-align:center;
+  }
+  .seal{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:120px;height:120px;
+    background:var(--cinnabar);color:#F4EFE4;
+    font-size:34px;font-weight:900;letter-spacing:.1em;
+    line-height:1.1;
+    writing-mode:vertical-rl;
+    border-radius:6px;
+    transform:rotate(-4deg);
+    box-shadow:0 2px 0 var(--cinnabar-deep);
+    padding:14px;
+  }
+  .ending p{
+    margin-top:28px;font-size:15px;color:var(--ink-soft);
+    letter-spacing:.15em;
+  }
+  footer{
+    margin-top:80px;padding-top:24px;border-top:1px solid var(--line);
+    text-align:center;font-size:12px;color:var(--ink-soft);letter-spacing:.2em;
+  }
+
+  @media (max-width:480px){
+    .wrap{padding:48px 20px 72px}
+    .hero{padding:48px 0 40px}
+    .checklist{padding:28px 22px}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none!important;animation:none!important}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <span>致 · 董喻心</span>
+    <span class="who">哥哥/姐姐 亲笔</span>
+  </div>
+
+  <section class="hero">
+    <div class="eyebrow">明 年 今 日 · 静 待 佳 音</div>
+    <h1>喻心，<br/>愿你<span class="accent">顺利上岸</span>。</h1>
+    <div class="sub">专升本 · 我们在岸上等你</div>
+    <div class="divider"></div>
+  </section>
+
+  <section class="count">
+    <div class="label">距 离 考 试</div>
+    <div class="num" id="days">—</div>
+    <div class="unit">天</div>
+    <div class="note" id="examDate">考试日期待定</div>
+  </section>
+
+  <section class="letter">
+    <h2>写在前面</h2>
+    <p>妹妹，写这页的时候，我猜你又坐在台灯下刷题。</p>
+    <p>专升本这条路，比别人多走一段，不丢人。它只说明你比同龄人多一次不肯认输的机会——你没有被一次考试定义，你在自己给自己挣一个更宽的舞台。</p>
+    <p>累了就抬头看看这页。它不会催你，不会打分，只是安安静静地在这里，和你一起等那个放榜的春天。</p>
+    <div class="sig">—— 永远站你这边的哥哥/姐姐</div>
+  </section>
+
+  <section class="checklist">
+    <h3>上 岸 清 单</h3>
+    <ul>
+      <li><span class="tick">✓</span><span>把该刷的题，一道一道刷完</span></li>
+      <li><span class="tick">✓</span><span>把该背的书，一遍一遍背熟</span></li>
+      <li><span class="tick">✓</span><span>三餐吃好，觉睡够，身体是本钱</span></li>
+      <li><span class="tick">✓</span><span>考场上不慌，你准备得比你以为的多</span></li>
+      <li><span class="tick">✓</span><span>拿到录取通知书那天，第一时间拍给我</span></li>
+    </ul>
+  </section>
+
+  <section class="quote">
+    <div class="mark">“</div>
+    <blockquote id="quoteText">日拱一卒，功不唐捐。</blockquote>
+    <div class="by" id="quoteBy">— 送 给 每 一 天 的 你 —</div>
+  </section>
+
+  <section class="ending">
+    <div class="seal">喻心<br/>必上岸</div>
+    <p>这一页，我们等你回来盖章。</p>
+  </section>
+
+  <footer>MADE WITH LOVE · FOR YUXIN · 2026</footer>
+</div>
+
+<script>
+  // ========== 配置：把下面这行改成妹妹所在省份的专升本考试日期 ==========
+  const EXAM_DATE = "2027-04-17T00:00:00"; // 示例：多数省份在 3-4 月，按妹妹所在省的实际公告修改
+  // ===================================================================
+
+  function renderCountdown(){
+    const target = new Date(EXAM_DATE);
+    const now = new Date();
+    const diff = target - now;
+    const days = Math.max(0, Math.ceil(diff / (1000*60*60*24)));
+    document.getElementById("days").textContent = days;
+    const y = target.getFullYear(), m = target.getMonth()+1, d = target.getDate();
+    document.getElementById("examDate").textContent =
+      "目标日期：" + y + " 年 " + m + " 月 " + d + " 日（如非本省考试日，请改 index.html 顶部 EXAM_DATE）";
+  }
+  renderCountdown();
+
+  // 每日一句：按当天日期轮换
+  const QUOTES = [
+    ["日拱一卒，功不唐捐。", "— 送 给 每 一 天 的 你 —"],
+    ["你现在翻的每一页书，都在为录取通知书铺路。", "— 给 喻 心 —"],
+    ["不必比较进度，只问今天是否尽力。", "— 慢 慢 走，比 站 着 强 —"],
+    ["上岸不是奇迹，是一千个夜晚的总和。", "— 静 水 流 深 —"],
+    ["再坚持一下，你想要的那张录取通知书，正在路上。", "— 岸 上 见 —"],
+    ["怕什么真理无穷，进一寸有一寸的欢喜。", "— 胡 适 —"],
+    ["你受过的苦，终将变成你手里的光。", "— 给 不 怕 输 的 你 —"],
+  ];
+  function pickQuote(){
+    const now = new Date();
+    const start = new Date(now.getFullYear(),0,0);
+    const day = Math.floor((now - start) / (1000*60*60*24));
+    const q = QUOTES[day % QUOTES.length];
+    document.getElementById("quoteText").textContent = q[0];
+    document.getElementById("quoteBy").textContent = q[1];
+  }
+  pickQuote();
+</script>
+</body>
+</html>
